@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .container h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+
+        #loadingFeedback {
+            text-align: center;
+            color: #007bff;
+            font-size: 1rem;
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required minlength="3" maxlength="20">
+                <div id="usernameError" class="error"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <div id="emailError" class="error"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required minlength="6">
+                <div id="passwordError" class="error"></div>
+            </div>
+
+            <button type="submit" id="submitButton">Submit</button>
+            <div id="loadingFeedback">Submitting...</div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const submitButton = document.getElementById('submitButton');
+        const loadingFeedback = document.getElementById('loadingFeedback');
+
+        const usernameError = document.getElementById('usernameError');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            let isValid = true;
+
+            // Clear errors
+            usernameError.textContent = '';
+            emailError.textContent = '';
+            passwordError.textContent = '';
+
+            // Validate username
+            if (username.value.length < 3 || username.value.length > 20) {
+                usernameError.textContent = 'Username must be between 3 and 20 characters.';
+                isValid = false;
+            }
+
+            // Validate email
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email.value)) {
+                emailError.textContent = 'Please enter a valid email address.';
+                isValid = false;
+            }
+
+            // Validate password
+            if (password.value.length < 6) {
+                passwordError.textContent = 'Password must be at least 6 characters long.';
+                isValid = false;
+            }
+
+            if (isValid) {
+                // Show loading feedback
+                submitButton.disabled = true;
+                loadingFeedback.style.display = 'block';
+
+                // Simulate form submission
+                setTimeout(() => {
+                    alert('Form submitted successfully!');
+                    submitButton.disabled = false;
+                    loadingFeedback.style.display = 'none';
+                    form.reset();
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
